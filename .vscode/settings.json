@@ -1,0 +1,21 @@
+{
+  "editor.formatOnSave": false,
+  "editor.autoClosingBrackets": true,
+  "prettier.enable": false,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/node_modules": true
+  },
+  "editor.codeActionsOnSave": {
+    "quickfix.biome": "explicit",
+    "source.organizeImports.biome": "explicit",
+    "source.removeUnusedImports": "explicit"
+  },
+  "testing.automaticallyOpenPeekView": "never",
+  "cSpell.words": ["iconify", "nextui"]
+}

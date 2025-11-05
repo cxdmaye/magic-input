@@ -6,10 +6,9 @@ import { allDetectors } from '@/core/detectors';
 import { ResultRenderer } from '@/components/Render';
 
 
-import { AnalyzeContent, GetAIConfig } from '../../../wailsjs/go/main/App'
+import { AnalyzeContent, GetAIConfig } from '../../../wailsjs/go/main/App';
 
 // 使用 Wails 生成的类型
-import { main } from '../../../wailsjs/go/models'
 
 const ClipboardAnalyzer = () => {
     const [input, setInput] = useState('');
@@ -31,6 +30,7 @@ const ClipboardAnalyzer = () => {
 
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [results, setResults] = useState<any[]>([]);
+    const [startAiAnalysis, setStartAiAnalysis] = useState(false);
 
     async function getAiInfo(content: string) {
         try {
@@ -96,13 +96,20 @@ const ClipboardAnalyzer = () => {
         // 按置信度排序
         results.sort((a, b) => b.confidence - a.confidence);
 
+        if (results.length === 0 || results[0].type === 'text') {
+            setStartAiAnalysis(true);
+            getAiInfo(input);
+        } else {
+            setStartAiAnalysis(false);
+        }
+
         setAnalysis(results);
         saveToHistory(content, results);
     };
 
     const handleAnalyze = () => {
         analyzeContent(input);
-        getAiInfo(input);
+
     };
 
     const loadFromHistory = (item: HistoryInputInterface) => {
@@ -126,10 +133,10 @@ const ClipboardAnalyzer = () => {
                     </div>
                     <button
                         onClick={() => setShowHistory(!showHistory)}
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer rd-[8px]"
                     >
                         <History className="w-5 h-5" />
-                        <span className="text-sm font-medium">历史记录 ({history.length})</span>
+                        <span className="text-sm font-medium ">{showHistory ? <>返回查询</> : <>历史记录 ({history.length})</>}</span>
                     </button>
                 </div>
             </header>
@@ -154,7 +161,7 @@ const ClipboardAnalyzer = () => {
                                     }
                                 }}
                                 placeholder="在此粘贴任意内容... (Ctrl/Cmd + Enter 快速分析)"
-                                className="w-full h-40 p-4 border border-gray-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                                className="w-full h-40 p-4 box-border border border-gray-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                             />
                             <div className="mt-4 flex gap-3">
                                 <button
@@ -178,75 +185,7 @@ const ClipboardAnalyzer = () => {
                             </div>
                         </div>
 
-                        {
-                            results && results.length > 0 && (
-                                <div className="bg-white rounded-2xl shadow-lg p-8">
-                                    <div className="flex items-center justify-between mb-6">
-                                        <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-                                            🤖 AI 智能分析结果
-                                            <span className="text-sm font-normal bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
-                                                {results.length} 个分析
-                                            </span>
-                                        </h2>
-                                    </div>
-                                    <div className="space-y-4">
-                                        {results.map((result, index) => (
-                                            <div key={index} className="relative group">
-                                                <div className="p-6 border border-blue-200 rounded-xl bg-gradient-to-r from-blue-50/80 to-purple-50/80 hover:from-blue-50 hover:to-purple-50 transition-all duration-200 hover:shadow-md">
-                                                    {/* 置信度标签 */}
-                                                    <div className="absolute top-4 right-4">
-                                                        <span className={`px-3 py-1 rounded-full text-sm font-semibold ${parseFloat(result.percent) >= 80
-                                                            ? 'bg-green-100 text-green-800 border border-green-200'
-                                                            : parseFloat(result.percent) >= 50
-                                                                ? 'bg-yellow-100 text-yellow-800 border border-yellow-200'
-                                                                : 'bg-red-100 text-red-800 border border-red-200'
-                                                            }`}>
-                                                            {result.percent}
-                                                        </span>
-                                                    </div>
 
-                                                    {/* 主要内容 */}
-                                                    <div className="pr-16">
-                                                        {/* 分类标题 */}
-                                                        <div className="flex items-center gap-3 mb-3">
-                                                            <div className="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center text-white text-sm font-bold">
-                                                                {index + 1}
-                                                            </div>
-                                                            <div>
-                                                                <h3 className="text-lg font-semibold text-gray-900">{result.classify}</h3>
-                                                                <span className="text-sm text-gray-500 font-mono bg-gray-100 px-2 py-0.5 rounded">
-                                                                    {result.classification} → {result.type}
-                                                                </span>
-                                                            </div>
-                                                        </div>
-
-                                                        {/* 分析结果 */}
-                                                        <div className="mb-4">
-                                                            <div className="flex items-start gap-2 mb-2">
-                                                                <span className="text-blue-600 font-semibold text-sm mt-0.5">🎯 分析结果:</span>
-                                                            </div>
-                                                            <p className="text-gray-800 leading-relaxed bg-white/70 p-3 rounded-lg border border-blue-100">
-                                                                {result.result}
-                                                            </p>
-                                                        </div>
-
-                                                        {/* 建议 */}
-                                                        <div>
-                                                            <div className="flex items-start gap-2 mb-2">
-                                                                <span className="text-purple-600 font-semibold text-sm mt-0.5">💡 建议操作:</span>
-                                                            </div>
-                                                            <p className="text-gray-700 leading-relaxed bg-purple-50/70 p-3 rounded-lg border border-purple-100">
-                                                                {result.suggestion}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )
-                        }
 
                         {/* 分析结果 */}
                         {analysis.length > 0 && (
@@ -263,6 +202,80 @@ const ClipboardAnalyzer = () => {
                                 </div>
                             </div>
                         )}
+
+                        {
+                            startAiAnalysis && (
+                                isAnalyzing ? <>
+                                    正在使用 AI 分析...
+
+                                </> : (
+                                    <div className="bg-white rounded-2xl shadow-lg p-8">
+                                        <div className="flex items-center justify-between mb-6">
+                                            <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                                                🤖 AI 智能分析结果
+                                                <span className="text-sm font-normal bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                                                    {results.length} 个分析
+                                                </span>
+                                            </h2>
+                                        </div>
+                                        <div className="space-y-4">
+                                            {results.map((result, index) => (
+                                                <div key={index} className="relative group">
+                                                    <div className="p-6 border border-blue-200 rounded-xl bg-gradient-to-r from-blue-50/80 to-purple-50/80 hover:from-blue-50 hover:to-purple-50 transition-all duration-200 hover:shadow-md">
+                                                        {/* 置信度标签 */}
+                                                        <div className="absolute top-4 right-4">
+                                                            <span className={`px-3 py-1 rounded-full text-sm font-semibold ${parseFloat(result.percent) >= 80
+                                                                ? 'bg-green-100 text-green-800 border border-green-200'
+                                                                : parseFloat(result.percent) >= 50
+                                                                    ? 'bg-yellow-100 text-yellow-800 border border-yellow-200'
+                                                                    : 'bg-red-100 text-red-800 border border-red-200'
+                                                                }`}>
+                                                                {result.percent}
+                                                            </span>
+                                                        </div>
+
+                                                        {/* 主要内容 */}
+                                                        <div className="pr-16">
+                                                            {/* 分类标题 */}
+                                                            <div className="flex items-center gap-3 mb-3">
+                                                                <div className="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center text-white text-sm font-bold">
+                                                                    {index + 1}
+                                                                </div>
+                                                                <div>
+                                                                    <h3 className="text-lg font-semibold text-gray-900">{result.classify}</h3>
+                                                                    <span className="text-sm text-gray-500 font-mono bg-gray-100 px-2 py-0.5 rounded">
+                                                                        {result.classification} → {result.type}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+
+                                                            {/* 分析结果 */}
+                                                            <div className="mb-4">
+                                                                <div className="flex items-start gap-2 mb-2">
+                                                                    <span className="text-blue-600 font-semibold text-sm mt-0.5">🎯 分析结果:</span>
+                                                                </div>
+                                                                <p className="text-gray-800 leading-relaxed bg-white/70 p-3 rounded-lg border border-blue-100">
+                                                                    {result.result}
+                                                                </p>
+                                                            </div>
+
+                                                            {/* 建议 */}
+                                                            <div>
+                                                                <div className="flex items-start gap-2 mb-2">
+                                                                    <span className="text-purple-600 font-semibold text-sm mt-0.5">💡 建议操作:</span>
+                                                                </div>
+                                                                <p className="text-gray-700 leading-relaxed bg-purple-50/70 p-3 rounded-lg border border-purple-100">
+                                                                    {result.suggestion}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))
+                        }
                     </div>
                 ) : (
                     /* 历史记录 */
@@ -274,7 +287,7 @@ const ClipboardAnalyzer = () => {
                             {history.length > 0 && (
                                 <button
                                     onClick={clearHistory}
-                                    className="text-sm text-red-500 hover:text-red-600 font-medium hover:underline"
+                                    className="text-sm text-red-500 hover:text-red-600 font-medium cursor-pointer hover:underline p-x-2 p-y-1 rd-[4px]"
                                 >
                                     清空全部
                                 </button>
@@ -291,16 +304,16 @@ const ClipboardAnalyzer = () => {
                                 {history.map((item) => (
                                     <div
                                         key={item.id}
-                                        className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 hover:border-gray-300 transition-all"
+                                        className="border border-gray-200  hover:bg-gray-50 hover:border-gray-300 transition-all"
                                     >
                                         <div className="flex items-start justify-between gap-4">
                                             <button
                                                 onClick={() => loadFromHistory(item)}
-                                                className="flex-1 text-left group"
+                                                className="flex-1 text-left group rd-[8px] p-4 "
                                             >
-                                                <p className="text-gray-700 mb-2 line-clamp-2 group-hover:text-gray-900">
+                                                <div className="text-gray-700 mb-2 line-clamp-2 group-hover:text-gray-900 rd-[8px] cursor-pointer">
                                                     {item.content}
-                                                </p>
+                                                </div>
                                                 <div className="flex items-center gap-2 flex-wrap mb-2">
                                                     {item.results.slice(0, 3).map((r, i) => (
                                                         <span
@@ -322,7 +335,7 @@ const ClipboardAnalyzer = () => {
                                             </button>
                                             <button
                                                 onClick={() => deleteHistoryItem(item.id)}
-                                                className="text-gray-400 hover:text-red-500 transition-colors p-1"
+                                                className="text-gray-400 cursor-pointer hover:text-red-500 transition-colors p-1 rd-[6px]"
                                             >
                                                 <X className="w-5 h-5" />
                                             </button>
