@@ -256,7 +256,7 @@ func (a *App) getConfigDir() (string, error) {
 	}
 	
 	// 创建应用专用配置目录
-	appConfigDir := filepath.Join(configDir, "crawler-app")
+	appConfigDir := filepath.Join(configDir, "magic-input-app")
 	return appConfigDir, nil
 }
 

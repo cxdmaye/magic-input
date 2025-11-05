@@ -23,12 +23,12 @@ jobs:
         platform:
           - os: windows-latest
             target: windows/amd64
-            output: crawler-app.exe
-            artifact_name: crawler-app-windows
+            output: magic-input-app.exe
+            artifact_name: magic-input-app-windows
           - os: macos-latest
             target: darwin/amd64
-            output: crawler-app.app
-            artifact_name: crawler-app-macos
+            output: magic-input-app.app
+            artifact_name: magic-input-app-macos
 
     runs-on: ${{ matrix.platform.os }}
 
@@ -119,11 +119,11 @@ jobs:
           Get-ChildItem build/bin/ -Recurse
 
           # 复制 exe 文件
-          if (Test-Path "build/bin/crawler-app.exe") {
-            Copy-Item build/bin/crawler-app.exe release/
-            Write-Host "✅ crawler-app.exe copied successfully"
+          if (Test-Path "build/bin/magic-input-app.exe") {
+            Copy-Item build/bin/magic-input-app.exe release/
+            Write-Host "✅ magic-input-app.exe copied successfully"
           } else {
-            Write-Host "❌ crawler-app.exe not found in build/bin/"
+            Write-Host "❌ magic-input-app.exe not found in build/bin/"
             exit 1
           }
 
@@ -143,16 +143,16 @@ jobs:
           ls -la build/bin/ || echo "build/bin/ directory not found"
 
           # 复制 app 文件
-          if [ -d "build/bin/crawler-app.app" ]; then
-            cp -r build/bin/crawler-app.app release/
-            echo "✅ crawler-app.app copied successfully"
+          if [ -d "build/bin/magic-input-app.app" ]; then
+            cp -r build/bin/magic-input-app.app release/
+            echo "✅ magic-input-app.app copied successfully"
             
             # 创建 pkg 安装包
             echo "Creating pkg installer..."
-            productbuild --component release/crawler-app.app /Applications release/crawler-app.pkg
-            echo "✅ crawler-app.pkg created successfully"
+            productbuild --component release/magic-input-app.app /Applications release/magic-input-app.pkg
+            echo "✅ magic-input-app.pkg created successfully"
           else
-            echo "❌ crawler-app.app not found in build/bin/"
+            echo "❌ magic-input-app.app not found in build/bin/"
             exit 1
           fi
 
@@ -183,7 +183,7 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: crawler-app-*
+          pattern: magic-input-app-*
           path: artifacts/
 
       - name: Display structure of downloaded files
@@ -195,16 +195,16 @@ jobs:
           echo "=== Detailed artifacts listing ==="
           ls -la artifacts/ || echo "artifacts/ directory not found"
 
-          if [ -d "artifacts/crawler-app-windows" ]; then
+          if [ -d "artifacts/magic-input-app-windows" ]; then
             echo ""
             echo "Windows artifacts:"
-            ls -la artifacts/crawler-app-windows/
+            ls -la artifacts/magic-input-app-windows/
           fi
 
-          if [ -d "artifacts/crawler-app-macos" ]; then
+          if [ -d "artifacts/magic-input-app-macos" ]; then
             echo ""
             echo "macOS artifacts:"
-            ls -la artifacts/crawler-app-macos/
+            ls -la artifacts/magic-input-app-macos/
           fi
 
       - name: Prepare release files
@@ -213,19 +213,19 @@ jobs:
           mkdir -p release-files
 
           # 复制 Windows 文件
-          if [ -f "artifacts/crawler-app-windows/crawler-app.exe" ]; then
-            cp "artifacts/crawler-app-windows/crawler-app.exe" "release-files/crawler-app-windows-amd64.exe"
+          if [ -f "artifacts/magic-input-app-windows/magic-input-app.exe" ]; then
+            cp "artifacts/magic-input-app-windows/magic-input-app.exe" "release-files/magic-input-app-windows-amd64.exe"
             echo "✅ Windows exe file copied"
           else
-            echo "❌ Windows exe file not found at: artifacts/crawler-app-windows/crawler-app.exe"
+            echo "❌ Windows exe file not found at: artifacts/magic-input-app-windows/magic-input-app.exe"
           fi
 
           # 复制 macOS pkg 文件
-          if [ -f "artifacts/crawler-app-macos/crawler-app.pkg" ]; then
-            cp "artifacts/crawler-app-macos/crawler-app.pkg" "release-files/crawler-app-macos-amd64.pkg"
+          if [ -f "artifacts/magic-input-app-macos/magic-input-app.pkg" ]; then
+            cp "artifacts/magic-input-app-macos/magic-input-app.pkg" "release-files/magic-input-app-macos-amd64.pkg"
             echo "✅ macOS pkg file copied"
           else
-            echo "❌ macOS pkg file not found at: artifacts/crawler-app-macos/crawler-app.pkg"
+            echo "❌ macOS pkg file not found at: artifacts/magic-input-app-macos/magic-input-app.pkg"
           fi
 
           echo ""
@@ -267,8 +267,8 @@ jobs:
 
           ### 📦 下载链接
 
-          - **Windows**: \`crawler-app-windows-amd64.exe\` - 直接运行的可执行文件
-          - **macOS**: \`crawler-app-macos-amd64.pkg\` - 标准安装包，双击安装
+          - **Windows**: \`magic-input-app-windows-amd64.exe\` - 直接运行的可执行文件
+          - **macOS**: \`magic-input-app-macos-amd64.pkg\` - 标准安装包，双击安装
 
           ### 🔄 本次更新内容
 
@@ -277,10 +277,10 @@ jobs:
           ### 🔧 安装说明
 
           #### Windows
-          直接运行 \`crawler-app-windows-amd64.exe\`
+          直接运行 \`magic-input-app-windows-amd64.exe\`
 
           #### macOS
-          双击 \`crawler-app-macos-amd64.pkg\` 进行安装，安装完成后在应用程序文件夹中找到 Magic Input
+          双击 \`magic-input-app-macos-amd64.pkg\` 进行安装，安装完成后在应用程序文件夹中找到 Magic Input
 
           ### 📅 构建信息
 

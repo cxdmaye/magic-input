@@ -22,7 +22,7 @@ func GetDefaultUpdateConfig() *UpdateConfig {
 	return &UpdateConfig{
 		AutoCheck:     true,
 		CheckInterval: 24, // 每24小时检查一次
-		UpdateURL:     "https://api.github.com/repos/cxdmaye/crawler/releases",
+		UpdateURL:     "https://api.github.com/repos/cxdmaye/magic-input/releases",
 		SkipVersion:   "",
 		LastCheck:     0,
 		UpdateChannel: "stable",
@@ -73,7 +73,7 @@ func SaveUpdateConfig(config *UpdateConfig) error {
 // getConfigPath 获取配置文件路径
 func getConfigPath() string {
 	homeDir, _ := os.UserHomeDir()
-	return filepath.Join(homeDir, ".crawler-app", "update_config.json")
+	return filepath.Join(homeDir, ".magic-app", "update_config.json")
 }
 
 // ShouldCheckUpdate 判断是否应该检查更新

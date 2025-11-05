@@ -40,8 +40,8 @@ UpdateURL: "https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO/releases"
 // 将 YOUR_USERNAME 替换为你的 GitHub 用户名
 // 将 YOUR_REPO 替换为你的仓库名
 // 例如：
-updateURL: "https://api.github.com/repos/john/crawler-app/releases/latest"
-UpdateURL: "https://api.github.com/repos/john/crawler-app/releases"
+updateURL: "https://api.github.com/repos/john/magic-input-app/releases/latest"
+UpdateURL: "https://api.github.com/repos/john/magic-input-app/releases"
 ```
 
 ### 3. 构建和测试
@@ -124,7 +124,7 @@ Version = "0.0.1"
 
 # 构建并运行应用
 make build-windows
-./build/bin/crawler-app.exe
+./build/bin/magic-input-app.exe
 ```
 
 2. **发布新版本**：
@@ -157,10 +157,10 @@ log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 ```bash
 # macOS/Linux
-cat ~/.crawler-app/update_config.json
+cat ~/.magic-input-app/update_config.json
 
 # Windows
-type %USERPROFILE%\.crawler-app\update_config.json
+type %USERPROFILE%\.magic-input-app\update_config.json
 ```
 
 #### 手动触发检查

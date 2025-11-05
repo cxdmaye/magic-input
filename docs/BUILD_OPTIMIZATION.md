@@ -65,7 +65,7 @@ make build-windows
 ./build-windows.sh
 
 # 直接使用 wails 命令
-wails build -platform windows/amd64 -clean -o crawler-app.exe
+wails build -platform windows/amd64 -clean -o magic-input-app.exe
 ```
 
 ### Windows 系统上构建
@@ -83,7 +83,7 @@ wails build -platform windows/amd64 -clean -o crawler-app.exe
 
 ## 输出文件
 
-- **文件路径**: `build/bin/crawler-app.exe`
+- **文件路径**: `build/bin/magic-input-app.exe`
 - **文件大小**: ~10.6 MB
 - **包含内容**:
   - 完整的应用程序

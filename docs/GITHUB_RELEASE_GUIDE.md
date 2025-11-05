@@ -69,9 +69,9 @@ git push origin main
 
 构建完成后，Release 中会包含：
 
-- **Windows**: `crawler-app-windows-amd64.exe`
-- **Linux**: `crawler-app-linux-amd64`
-- **macOS**: `crawler-app-macos-amd64.tar.gz`
+- **Windows**: `magic-input-app-windows-amd64.exe`
+- **Linux**: `magic-input-app-linux-amd64`
+- **macOS**: `magic-input-app-macos-amd64.tar.gz`
 
 ## 🧪 测试构建
 

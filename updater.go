@@ -63,7 +63,7 @@ func NewUpdater(app *App) *Updater {
 	
 	return &Updater{
 		app:        app,
-		updateURL:  "https://api.github.com/repos/cxdmaye/crawler/releases/latest",
+		updateURL:  "https://api.github.com/repos/cxdmaye/magic-input/releases/latest",
 		currentVer: currentVer,
 	}
 }
@@ -175,7 +175,7 @@ func (a *App) applyMacOSUpdate(reader io.Reader, downloadURL string) error {
 func (a *App) downloadAndInstallPkg(reader io.Reader, downloadURL string) error {
 	// 创建临时文件
 	tmpDir := os.TempDir()
-	tmpFile := filepath.Join(tmpDir, "crawler-update.pkg")
+	tmpFile := filepath.Join(tmpDir, "magic-input-update.pkg")
 	
 	// 将下载内容写入临时文件
 	file, err := os.Create(tmpFile)
@@ -327,16 +327,16 @@ func (u *Updater) fetchLatestVersion() (*UpdateInfo, error) {
 	
 	for _, asset := range release.Assets {
 		fmt.Println("Asset Name:", asset.Name)
-		if platform == "windows" && (asset.Name == "crawler-app-windows-amd64.exe" || 
-			fmt.Sprintf("crawler-app-%s.exe", platform) == asset.Name) {
+		if platform == "windows" && (asset.Name == "magic-input-app-windows-amd64.exe" || 
+			fmt.Sprintf("magic-input-app-%s.exe", platform) == asset.Name) {
 			downloadURL = asset.BrowserDownloadURL
 			break
-		} else if platform == "darwin" && (asset.Name == "crawler-app-macos-amd64.pkg" ||
-			fmt.Sprintf("crawler-app-%s.app", platform) == asset.Name) {
+		} else if platform == "darwin" && (asset.Name == "magic-input-app-macos-amd64.pkg" ||
+			fmt.Sprintf("magic-input-app-%s.app", platform) == asset.Name) {
 			downloadURL = asset.BrowserDownloadURL
 			break
-		} else if platform == "linux" && (asset.Name == "crawler-app" ||
-			fmt.Sprintf("crawler-app-%s", platform) == asset.Name) {
+		} else if platform == "linux" && (asset.Name == "magic-input-app" ||
+			fmt.Sprintf("magic-input-app-%s", platform) == asset.Name) {
 			downloadURL = asset.BrowserDownloadURL
 			break
 		}

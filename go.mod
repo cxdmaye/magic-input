@@ -1,4 +1,4 @@
-module crawler-app
+module magic-input-app
 
 go 1.23
 

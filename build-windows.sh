@@ -21,9 +21,9 @@ echo "构建 Windows exe..."
 wails build -platform windows/amd64 -clean
 
 # 检查构建结果
-if [ -f "build/bin/crawler-app.exe" ]; then
+if [ -f "build/bin/magic-input-app.exe" ]; then
     echo "✅ Windows 构建成功！"
-    echo "输出文件: build/bin/crawler-app.exe"
+    echo "输出文件: build/bin/magic-input-app.exe"
     ls -la build/bin/
 else
     echo "❌ Windows 构建失败！"

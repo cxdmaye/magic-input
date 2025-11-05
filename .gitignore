@@ -2,5 +2,5 @@ build/bin
 node_modules
 frontend/dist/*
 !frontend/dist/.keep.html
-crawler-app
-.crawler/*
+magic-input-app
+.magic-input/*

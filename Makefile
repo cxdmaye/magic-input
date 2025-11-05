@@ -33,15 +33,15 @@ help:
 build-windows:
 	@echo "🚀 开始构建 Windows 版本..."
 	@echo "版本: $(VERSION) | 提交: $(GIT_COMMIT)"
-	@wails build -platform windows/amd64 -clean -o crawler-app.exe $(LDFLAGS)
-	@echo "✅ Windows 构建完成: build/bin/crawler-app.exe"
+	@wails build -platform windows/amd64 -clean -o magic-input-app.exe $(LDFLAGS)
+	@echo "✅ Windows 构建完成: build/bin/magic-input-app.exe"
 
 # 构建 macOS 版本
 build-darwin:
 	@echo "🚀 开始构建 macOS 版本..."
 	@echo "版本: $(VERSION) | 提交: $(GIT_COMMIT)"
 	@wails build -platform darwin/amd64 -clean $(LDFLAGS)
-	@echo "✅ macOS 构建完成: build/bin/crawler-app.app"
+	@echo "✅ macOS 构建完成: build/bin/magic-input-app.app"
 
 
 
@@ -83,14 +83,14 @@ update-deps:
 package-windows: build-windows
 	@echo "📦 创建 Windows 发布包..."
 	@mkdir -p release
-	@cp build/bin/crawler-app.exe release/
-	@echo "✅ Windows 发布包创建完成: release/crawler-app.exe"
+	@cp build/bin/magic-input-app.exe release/
+	@echo "✅ Windows 发布包创建完成: release/magic-input-app.exe"
 
 package-darwin: build-darwin
 	@echo "📦 创建 macOS 发布包..."
 	@mkdir -p release
-	@cp -r build/bin/crawler-app.app release/
-	@echo "✅ macOS 发布包创建完成: release/crawler-app.app"
+	@cp -r build/bin/magic-input-app.app release/
+	@echo "✅ macOS 发布包创建完成: release/magic-input-app.app"
 
 # 创建所有发布包
 package-all: package-windows package-darwin package-linux

@@ -7,12 +7,12 @@
     "0000": {
       "ProductVersion": "{{.Info.ProductVersion}}",
       "CompanyName": "{{.Info.CompanyName}}",
-      "FileDescription": "{{.Info.ProductName}} - Web Crawler Application",
+      "FileDescription": "{{.Info.ProductName}} - Magic Input Application",
       "LegalCopyright": "{{.Info.Copyright}}",
       "ProductName": "{{.Info.ProductName}}",
       "Comments": "{{.Info.Comments}}",
-      "OriginalFilename": "crawler-app.exe",
-      "InternalName": "crawler-app"
+      "OriginalFilename": "magic-input-app.exe",
+      "InternalName": "magic-input-app"
     }
   }
 }

@@ -1,10 +1,10 @@
 # Magic Input
 
-一个基于 Wails 框架的现代化网络爬虫应用程序。
+一个本地剪切板 + AI 查询分析的 APP，可以对任意的输入进行分析，可接入 AI 大模型进行进一步的分析查询
 
 ## 关于项目
 
-这是一个使用 Wails v2 + React + TypeScript 构建的桌面应用程序，提供强大的网络爬虫功能。
+这是一个使用 Wails v2 + React + TypeScript 构建的桌面应用程序。
 
 项目配置可以通过编辑 `wails.json` 文件进行调整。更多项目设置信息请参考：https://wails.io/docs/reference/project-config
 
@@ -48,7 +48,7 @@ make dev
 ./build-windows.sh
 
 # 或者直接使用 wails 命令
-wails build -platform windows/amd64 -clean -o crawler-app.exe
+wails build -platform windows/amd64 -clean -o magic-input-app.exe
 ```
 
 **在 Windows 上构建：**
@@ -78,9 +78,9 @@ wails build -platform linux/amd64 -clean
 
 ## 输出文件
 
-- **Windows**: `build/bin/crawler-app.exe`
-- **macOS**: `build/bin/crawler-app.app`
-- **Linux**: `build/bin/crawler-app`
+- **Windows**: `build/bin/magic-input-app.exe`
+- **macOS**: `build/bin/magic-input-app.app`
+- **Linux**: `build/bin/magic-input-app`
 
 ## 依赖安装
 

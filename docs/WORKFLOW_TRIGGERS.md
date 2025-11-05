@@ -22,9 +22,9 @@
 - 自动生成发布说明
 
 **文件输出**:
-- `crawler-app-windows-amd64.exe`
-- `crawler-app-linux-amd64`
-- `crawler-app-macos-amd64.tar.gz`
+- `magic-input-app-windows-amd64.exe`
+- `magic-input-app-linux-amd64`
+- `magic-input-app-macos-amd64.tar.gz`
 
 ### 2. 🧪 测试构建 (`test-build.yml`)
 

@@ -282,7 +282,7 @@ log.SetLevel(log.DebugLevel)
 查看配置文件：
 
 ```
-~/.crawler-app/update_config.json
+~/.magic-input-app/update_config.json
 ```
 
 ## 最佳实践
